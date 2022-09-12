@@ -61,10 +61,16 @@ footer {
     align-items: center;
     background: black;
     border-radius: 50%;
+    box-shadow: none;
     color: white;
     display: flex;
     height: 100%;
     justify-content: center;
+    transition: 500ms;
+}
+
+.buttons > div:hover{
+    box-shadow: 1px 1px 5px 1px red, -1px -1px 5px 1px red;
 }
 
 .buttons p {
