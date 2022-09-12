@@ -45,19 +45,23 @@ footer {
     display: flex;
     flex: 1 1 25%;
     flex-direction: column;
+    font-family: 'Orbitron', sans-serif;
     margin: 10px;
     text-align: right;
 }
 
-.display > .operands {
+.display > .upper-display {
+    color: black;
     flex: 1 1 75%;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 1rem 1rem 1rem 0;
     user-select: none;
 }
 
 .display > .input {
     color: black;
     flex: 1 1 25%;
-    font-family: 'Orbitron', sans-serif;
     user-select: none;
 }
 
