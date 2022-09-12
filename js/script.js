@@ -33,3 +33,17 @@ function operate(num1, num2, operator) {
             break;
     }
 }
+
+let value = [];
+let input = document.querySelector('.display > .input')
+let buttons = document.querySelectorAll('.buttons > div');
+console.log(buttons);
+buttons.forEach(button => {
+    button.addEventListener('click', displayContent);
+});
+
+function displayContent(e) {
+    if(!(e.target.classList.contains('numeral'))) return;
+    value.push(e.target.textContent);
+    input.textContent = value.join('');
+}

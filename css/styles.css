@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;800&display=swap');
+
 :root {
     --calc-rotation: 25deg;
 }
@@ -23,6 +25,7 @@ footer {
     text-align: center;
     font-size: 1rem;
     font-family: sans-serif;
+    user-select: none;
 }
 
 .calc-base {
@@ -39,8 +42,23 @@ footer {
 /*Display styling*/
 .display {
     background: white;
+    display: flex;
     flex: 1 1 25%;
+    flex-direction: column;
     margin: 10px;
+    text-align: right;
+}
+
+.display > .operands {
+    flex: 1 1 75%;
+    user-select: none;
+}
+
+.display > .input {
+    color: black;
+    flex: 1 1 25%;
+    font-family: 'Orbitron', sans-serif;
+    user-select: none;
 }
 
 /*Buttons styling*/
@@ -66,7 +84,15 @@ footer {
     display: flex;
     height: 100%;
     justify-content: center;
+    position: relative;
     transition: 500ms;
+}
+
+.buttons > div::before { 
+    border-radius: 50%;
+    content: '';
+    inset: 0;
+    position: absolute;
 }
 
 .buttons > div:hover{
