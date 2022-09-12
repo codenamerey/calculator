@@ -46,7 +46,7 @@ buttons.forEach(button => {
 });
 
 function displayContent(e) {
-    if(e.target.classList.contains('numeral')) {
+    if(e.target.classList.contains('numeral') || e.target.id == 'dot') {
         value.push(e.target.textContent);
         input.textContent = value.join('');
     }
@@ -55,6 +55,10 @@ function displayContent(e) {
         if(firstNum) {
             operator = e.target.textContent;
             if(upperDisplay.textContent.includes(operator)) return;
+            if(upperDisplay.textContent.search(/[+\/*-]/g) !== -1) {
+                upperDisplay.textContent = upperDisplay.textContent.replace(/[+\/*-]/g, operator);
+                return;
+            }
             upperDisplay.textContent += operator;
             return;
         }
@@ -80,5 +84,11 @@ function displayContent(e) {
         input.textContent = '';
         firstNum = operate(firstNum, secondNum, operator);
         operator = '';
+    }
+
+    if(e.target.id == 'clear') {
+        value = [];
+        upperDisplay.textContent = '';
+        input.textContent = '';
     }
 }
