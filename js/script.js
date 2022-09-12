@@ -47,6 +47,7 @@ buttons.forEach(button => {
 
 function displayContent(e) {
     if(e.target.classList.contains('numeral') || e.target.id == 'dot') {
+        if(input.textContent.length > 12) return;
         value.push(e.target.textContent);
         input.textContent = value.join('');
     }
