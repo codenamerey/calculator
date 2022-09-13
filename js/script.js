@@ -90,6 +90,8 @@ function displayContent(e) {
 
     if(e.target.id == 'clear') {
         value = [];
+        firstNum = '';
+        secondNum = '';
         upperDisplay.textContent = '';
         input.textContent = '';
     }
