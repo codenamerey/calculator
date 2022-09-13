@@ -29,7 +29,7 @@ footer {
 }
 
 .calc-base {
-    aspect-ratio: 8 / 11;
+    aspect-ratio: 8 / 13;
     background: #2c2a2a;
     border-radius: 1rem;
     box-shadow: 1px 1px 5px 1px white, -1px -1px 5px 1px white;
@@ -68,19 +68,19 @@ footer {
 /*Buttons styling*/
 .buttons {
     align-items: center;
-    box-sizing: border-box;
     display: grid;
     flex: 1 1 75%;
     gap: 1rem;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    padding: 10px;
+    /* grid-template-rows: repeat(5, 1fr); */
+    margin: 1.1rem;
     max-height: 100%;
     text-align: center;
 }
 
 .buttons > div {
     align-items: center;
+    /* aspect-ratio: 1; */
     background: black;
     border-radius: 50%;
     box-shadow: none;
@@ -105,7 +105,7 @@ footer {
 
 .buttons p {
     font-family: sans-serif;
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 900;
     margin: 0;
     padding: 0;
@@ -114,6 +114,11 @@ footer {
 
 .buttons > div[id="4"] {
     grid-row-start: 3;
+}
+
+.buttons > div[id="0"] {
+    border-radius: 1rem;
+    grid-column: span 3;
 }
 
 .buttons > div[id="dot"] {
@@ -126,12 +131,11 @@ footer {
     grid-column-start: 4;
 }
 
-.buttons > .numeral {
-    background-color: goldenrod;
+.buttons > div[id="equal"] {
+    border-radius: 1rem;
+    grid-row: span 2;
 }
 
-@media only screen and (max-width: 500px) {
-    .calc-base {
-        transform: scale(.75);
-    }
+.buttons > .numeral {
+    background-color: goldenrod;
 }
