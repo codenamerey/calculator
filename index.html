@@ -1,39 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/styles.css" />
     <script src="./js/script.js" defer></script>
     <title>Calculator</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="calc-base">
-        <div class="display">
-            <div class="upper-display"></div>
-            <div class="input"></div>
+      <div class="display">
+        <div class="upper-display"></div>
+        <div class="input"></div>
+      </div>
+      <div class="new-buttons">
+        <div class="new-button conversion" id="decimal"><p>DEC</p></div>
+        <div class="new-button conversion" id="binary"><p>BIN</p></div>
+        <div class="new-button conversion" id="hexadecimal"><p>HEX</p></div>
+        <div class="new-button conversion" id="octal"><p>OCT</p></div>
+        <div class="new-button memory" id="add"><p>Mem +</p></div>
+        <div class="new-button memory" id="minus"><p>Mem -</p></div>
+        <div class="new-button memory" id="delete"><p>Mem Clear</p></div>
+        <div class="new-button memory" id="recall">
+          <p>Mem Recall</p>
         </div>
-        <div class="buttons">
-            <div class="operator" id="+"><p>+</p></div>
-            <div class="operator" id="-"><p>-</p></div>
-            <div class="operator" id="/"><p>/</p></div>
-            <div class="operator" id="*"><p>*</p></div>
-            <div class="numeral" id="1"><p>1</p></div>
-            <div class="numeral" id="2"><p>2</p></div>
-            <div class="numeral" id="3"><p>3</p></div>
-            <div class="numeral" id="4"><p>4</p></div>
-            <div class="numeral" id="5"><p>5</p></div>
-            <div class="numeral" id="6"><p>6</p></div>
-            <div class="numeral" id="7"><p>7</p></div>
-            <div class="numeral" id="8"><p>8</p></div>
-            <div class="numeral" id="9"><p>9</p></div>
-            <div class="others" id="clear"><p>CLEAR</p></div>
-            <div class="others" id="dot"><p>.</p></div>
-            <div class="others" id="equal"><p>=</p></div>
-            <div class="numeral" id="0"><p>0</p></div>
-        </div>
+      </div>
+      <div class="buttons">
+        <div class="operator" id="+"><p>+</p></div>
+        <div class="operator" id="-"><p>-</p></div>
+        <div class="operator" id="/"><p>/</p></div>
+        <div class="operator" id="*"><p>*</p></div>
+        <div class="numeral" id="1"><p>1</p></div>
+        <div class="numeral" id="2"><p>2</p></div>
+        <div class="numeral" id="3"><p>3</p></div>
+        <div class="numeral" id="4"><p>4</p></div>
+        <div class="numeral" id="5"><p>5</p></div>
+        <div class="numeral" id="6"><p>6</p></div>
+        <div class="numeral" id="7"><p>7</p></div>
+        <div class="numeral" id="8"><p>8</p></div>
+        <div class="numeral" id="9"><p>9</p></div>
+        <div class="others" id="clear"><p>CLEAR</p></div>
+        <div class="others" id="dot"><p>.</p></div>
+        <div class="others" id="equal"><p>=</p></div>
+        <div class="numeral" id="0"><p>0</p></div>
+      </div>
     </div>
-    <footer>Created by Lee Ryan, mate <br>&copy; <script>document.write(new Date().getFullYear());</script></footer>
-</body>
+    <footer>
+      Created by Lee Ryan, mate <br />&copy;
+      <script>
+        document.write(new Date().getFullYear());
+      </script>
+    </footer>
+  </body>
 </html>
