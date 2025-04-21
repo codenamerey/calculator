@@ -92,7 +92,7 @@ function updateMemoryIndicator() {
 
 // Function to update number system indicator
 function updateSystemIndicator() {
-  switch(currentNumberSystem) {
+  switch (currentNumberSystem) {
     case "decimal":
       systemIndicator.textContent = "DEC";
       break;
@@ -109,19 +109,58 @@ function updateSystemIndicator() {
 }
 
 buttons.forEach((button) => {
-  button.addEventListener("click", displayContent);
+  button.addEventListener("click", handleClick);
 });
 
 newButtons.forEach((button) => {
-  button.addEventListener("click", displayContent);
+  button.addEventListener("click", handleClick);
 });
+
+function handleClick(e) {
+  // If the click is on the paragraph, use its parent (the button div)
+  const targetElement =
+    e.target.tagName === "P" ? e.target.parentElement : e.target;
+
+  // Create a new event with the correct target
+  const syntheticEvent = {
+    target: targetElement,
+    currentTarget: e.currentTarget,
+  };
+
+  // Call the display content function with our synthetic event
+  displayContent(syntheticEvent);
+}
 
 function displayContent(e) {
   if (e.target.classList.contains("numeral") || e.target.id == "dot") {
     if (firstNum && !operator) return;
     if (input.textContent.length > 12) return;
+
+    // Prevent adding multiple decimal points
+    if (e.target.id == "dot" && value.includes(".")) return;
+
     value.push(e.target.textContent);
     input.textContent = value.join("");
+  }
+
+  if (e.target.id == "negate") {
+    // Handle the negation - prioritize input field, but affect result if input is empty
+    if (input.textContent) {
+      // Toggle the sign of the current input
+      const currentValue = parseFloat(input.textContent);
+      const negatedValue = -currentValue;
+
+      // Update the input display and value array
+      input.textContent = negatedValue.toString();
+      value = negatedValue.toString().split("");
+    } else if (upperDisplay.textContent) {
+      // If there's no input but there is a result in the upper display, negate that result
+      const currentValue = parseFloat(upperDisplay.textContent);
+      const negatedValue = -currentValue;
+
+      upperDisplay.textContent = negatedValue.toString();
+      firstNum = negatedValue.toString();
+    }
   }
 
   if (e.target.classList.contains("operator")) {
@@ -165,39 +204,96 @@ function displayContent(e) {
     upperDisplay.textContent = convertedNumber;
     input.textContent = "";
     currentNumberSystem = conversionType;
-    
+
     // Update the system indicator
     updateSystemIndicator();
   }
 
   if (e.target.classList.contains("memory")) {
     const memoryAction = e.target.id;
-    if (memoryAction === "recall") {
-      input.textContent = memory;
-    } else if (memoryAction === "add") {
-      // If memory is 0, act as M-Store, otherwise act as M+ (add to memory)
-      if (input.textContent) {
-        if (memory === 0) {
-          // Memory is empty, so just store the current value
-          memory = parseFloat(input.textContent);
-        } else {
-          // Memory has a value, so add to it
-          memory += parseFloat(input.textContent);
+    
+    // Check if there's an ongoing operation
+    const isOngoingOperation = firstNum && operator && !secondNum;
+    
+    // For memory add and minus operations, check if there's an ongoing operation
+    if ((memoryAction === "add" || memoryAction === "minus") && isOngoingOperation) {
+      // Display ERROR message
+      upperDisplay.textContent = "ERROR";
+      input.textContent = "";
+      
+      // Clear everything
+      value = [];
+      firstNum = "";
+      secondNum = "";
+      operator = "";
+      
+      // Update the indicators
+      updateSystemIndicator();
+      return;
+    }
+
+    // Determine which value to use
+    let valueToUse = null;
+
+    // First check if there's a value in the input field
+    if (input.textContent) {
+      valueToUse = parseFloat(input.textContent);
+    }
+    // Otherwise, check for a value in the upper display
+    else if (upperDisplay.textContent) {
+      // If there's an operator in the display, only use the number part
+      if (
+        upperDisplay.textContent.includes("+") ||
+        upperDisplay.textContent.includes("-") ||
+        upperDisplay.textContent.includes("*") ||
+        upperDisplay.textContent.includes("/")
+      ) {
+        // Get the value before the operator
+        const match = upperDisplay.textContent.match(/^(-?\d+(\.\d+)?)/);
+        if (match) {
+          valueToUse = parseFloat(match[0]);
         }
+      } else {
+        // No operator, use the full value
+        valueToUse = parseFloat(upperDisplay.textContent);
+      }
+    }
+
+    console.log("Memory before:", memory);
+    console.log("Value to use:", valueToUse);
+
+    if (memoryAction === "recall") {
+      // Set input to memory value
+      input.textContent = memory;
+      value = memory.toString().split("");
+    } else if (memoryAction === "add") {
+      // Add to memory
+      if (valueToUse !== null) {
+        memory += valueToUse;
+        console.log("Memory after add:", memory);
+        // Show the new memory value in the input field
         input.textContent = memory;
-      } else if (upperDisplay.textContent && memory === 0) {
-        // If input is empty but upper display has value, and memory is empty
-        memory = parseFloat(upperDisplay.textContent);
+        value = memory.toString().split("");
       }
     } else if (memoryAction === "minus") {
-      if (input.textContent) {
-        memory -= parseFloat(input.textContent);
+      // Subtract from memory
+      if (valueToUse !== null) {
+        memory -= valueToUse;
+        console.log("Memory after subtract:", memory);
+        // Show the new memory value in the input field
         input.textContent = memory;
+        value = memory.toString().split("");
       }
     } else if (memoryAction === "delete") {
+      // Clear memory
       memory = 0;
+      // Clear the input if it's showing a memory value
+      if (input.textContent) {
+        input.textContent = "";
+        value = [];
+      }
     }
-    
+
     // Update the memory indicator
     updateMemoryIndicator();
   }
@@ -222,7 +318,7 @@ function displayContent(e) {
     currentNumberSystem = "decimal";
     upperDisplay.textContent = "";
     input.textContent = "";
-    
+
     // Update both indicators
     updateSystemIndicator();
     // Note: We don't reset memory on clear, only update system

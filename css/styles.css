@@ -29,28 +29,39 @@ footer {
 }
 
 .calc-base {
-  aspect-ratio: 8 / 16;
-  background: #2c2a2a;
-  border-radius: 1rem;
-  box-shadow: 1px 1px 5px 1px white, -1px -1px 5px 1px white;
+  aspect-ratio: 3 / 5;
+  background: linear-gradient(145deg, #333333, #222222);
+  border-radius: 1.5rem;
+  box-shadow: 
+    5px 5px 15px rgba(0, 0, 0, 0.6),
+    -5px -5px 15px rgba(255, 255, 255, 0.1),
+    inset 0 2px 2px rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   height: 80%;
+  max-width: 340px;
   position: relative;
   overflow: hidden;
-  padding-bottom: 0.8rem;
+  padding-bottom: 1rem;
+  border: 2px solid #444;
 }
 
 /*Display styling*/
 .display {
-  background: white;
+  background: #c8e6c9;
   display: flex;
   flex: 0 0 20%;
   flex-direction: column;
   font-family: "Orbitron", sans-serif;
-  margin: 10px;
+  margin: 15px;
   text-align: right;
   position: relative;
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 2px 5px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(255, 255, 255, 0.3);
+  padding: 5px;
+  border: 1px solid #444;
 }
 
 /* Indicators styling */
@@ -66,37 +77,54 @@ footer {
 
 .memory-indicator {
   background-color: transparent;
-  color: #ff6b6b;
+  color: #d32f2f;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   display: none;
+  text-shadow: 0 0 2px rgba(255, 50, 50, 0.4);
+  padding: 2px 5px;
+  border-radius: 3px;
 }
 
 .memory-indicator.active {
   display: block;
+  animation: pulse 2s infinite;
 }
 
 .system-indicator {
-  background-color: #4dabf7;
+  background-color: #2d5f8b;
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: bold;
   padding: 2px 6px;
   border-radius: 4px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  border: 1px solid #204a70;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
 
 .display > .upper-display {
   color: black;
-  flex: 1 1 75%;
+  flex: 1 1 50%;
   font-size: 1.5rem;
   font-weight: 900;
-  margin: 1.5rem 1rem 1rem 0;  /* Increased top margin to accommodate indicators */
+  margin: 1.5rem 1rem 0.5rem 0;  /* Adjusted margins */
   user-select: none;
 }
 
 .display > .input {
   color: black;
-  flex: 1 1 25%;
+  flex: 1 1 50%;
+  font-size: 1.5rem;  /* Matching font size */
+  font-weight: 900;   /* Matching font weight */
+  margin: 0.5rem 1rem 1rem 0;  /* Added margin */
   user-select: none;
 }
 
@@ -117,17 +145,21 @@ footer {
 .buttons > div {
   align-items: center;
   aspect-ratio: 1 / 1;
-  background: black;
+  background: linear-gradient(145deg, #333333, #222222);
   border-radius: 50%;
-  box-shadow: none;
+  box-shadow: 
+    2px 2px 5px rgba(0, 0, 0, 0.5),
+    -1px -1px 3px rgba(255, 255, 255, 0.1);
   color: white;
   display: flex;
   width: 90%;
   height: 90%;
   justify-content: center;
   position: relative;
-  transition: 500ms;
+  transition: transform 0.2s;
   font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid #444;
 }
 
 .buttons > div::before {
@@ -137,9 +169,134 @@ footer {
   position: absolute;
 }
 
-.buttons > div:hover {
-  box-shadow: 1px 1px 5px 1px red, -1px -1px 5px 1px red;
+/* Add a subtle inner highlight effect */
+.buttons > div::after {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  width: 40%;
+  height: 30%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 50%;
+  pointer-events: none;
 }
+
+.buttons > div:hover {
+  /* Removed hover effect */
+}
+
+.buttons > div:active {
+  transform: scale(0.92);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.7);
+  transition: transform 0.1s, box-shadow 0.1s;
+  position: relative;
+  z-index: 10;
+}
+
+/* Box-shadow water ripple effect */
+.buttons > .numeral:active {
+  animation: ripple-blue 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+.buttons > .operator:active {
+  animation: ripple-orange 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+.buttons > .others:active {
+  animation: ripple-red 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+/* Specific animation for the negate button */
+.buttons > div[id="negate"]:active {
+  animation: ripple-purple 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+@keyframes ripple-purple {
+  0% {
+    box-shadow: 0 0 0 rgba(180, 100, 255, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(180, 100, 255, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(180, 100, 255, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(180, 100, 255, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(180, 100, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(180, 100, 255, 0);
+  }
+}
+
+@keyframes ripple-blue {
+  0% {
+    box-shadow: 0 0 0 rgba(100, 200, 255, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(100, 200, 255, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(100, 200, 255, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(100, 200, 255, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(100, 200, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(100, 200, 255, 0);
+  }
+}
+
+@keyframes ripple-orange {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 165, 0, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(255, 165, 0, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(255, 165, 0, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(255, 165, 0, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(255, 165, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(255, 165, 0, 0);
+  }
+}
+
+@keyframes ripple-red {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 100, 100, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(255, 100, 100, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(255, 100, 100, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(255, 100, 100, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(255, 100, 100, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(255, 100, 100, 0);
+  }
+}
+
+/* Animation keyframes removed, replaced by specific ripple animations */
 
 .buttons p {
   font-family: sans-serif;
@@ -148,6 +305,8 @@ footer {
   margin: 0;
   padding: 0;
   user-select: none;
+  position: relative;
+  z-index: 2; /* Make text appear above the splash effect */
 }
 
 .buttons > div[id="4"] {
@@ -156,12 +315,22 @@ footer {
 
 .buttons > div[id="0"] {
   border-radius: 1rem;
-  grid-column: span 3;
+  grid-column: span 2;
   aspect-ratio: auto; /* Override the 1:1 aspect ratio for this button */
   width: 98%; /* Slightly reduced width to prevent overflow */
   height: 85%; /* Reduced height to prevent overflow */
   margin: auto; /* Center the button */
   min-height: auto; /* Remove min-height constraint */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.buttons > div[id="negate"] {
+  border-radius: 50%;
+  grid-column-start: 1;
+  grid-row: 5;
+  background-color: #7030a0; /* Purple background */
+  color: white;
+  font-weight: bold;
 }
 
 .buttons > div[id="dot"] {
@@ -182,10 +351,55 @@ footer {
   width: 85%; /* Reduced width to prevent overflow */
   min-height: auto; /* Remove min-height constraint */
   margin: auto; /* Center the button */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .buttons > .numeral {
-  background-color: goldenrod;
+  background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.buttons > .operator {
+  background: linear-gradient(145deg, #ff8c00, #e67e00);
+  color: #fff;
+  border: 1px solid #d47200;
+}
+
+.buttons > .others {
+  background: linear-gradient(145deg, #4b4b4b, #383838);
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.buttons > div[id="clear"] {
+  background: linear-gradient(145deg, #ff4d4d, #e64444);
+  color: #fff;
+  border: 1px solid #d13939;
+}
+
+.buttons > div[id="equal"] {
+  background: linear-gradient(145deg, #4caf50, #43a047);
+  color: #fff;
+  border: 1px solid #388e3c;
+}
+
+.buttons > div[id="negate"] {
+  background: linear-gradient(145deg, #7e57c2, #673ab7);
+  color: #fff;
+  border: 1px solid #5e35b1;
+}
+
+.new-buttons > .memory {
+  background: linear-gradient(145deg, #e91e63, #d81b60);
+  color: #fff;
+  border: 1px solid #c2185b;
+}
+
+.new-buttons > .conversion {
+  background: linear-gradient(145deg, #2196f3, #1e88e5);
+  color: #fff;
+  border: 1px solid #1976d2;
 }
 
 .new-buttons {
@@ -203,16 +417,20 @@ footer {
 .new-buttons > div {
   align-items: center;
   aspect-ratio: 1 / 1;
-  background: black;
+  background: linear-gradient(145deg, #333333, #222222);
   border-radius: 50%;
-  box-shadow: none;
+  box-shadow: 
+    2px 2px 5px rgba(0, 0, 0, 0.5),
+    -1px -1px 3px rgba(255, 255, 255, 0.1);
   color: white;
   display: flex;
   height: 90%;
   justify-content: center;
   position: relative;
-  transition: 500ms;
+  transition: transform 0.2s;
   font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid #444;
 }
 
 .new-buttons > div::before {
@@ -222,8 +440,80 @@ footer {
   position: absolute;
 }
 
+/* Add a subtle inner highlight effect */
+.new-buttons > div::after {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  width: 40%;
+  height: 30%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
 .new-buttons > div:hover {
-  box-shadow: 1px 1px 5px 1px red, -1px -1px 5px 1px red;
+  /* Removed hover effect */
+}
+
+.new-buttons > div:active {
+  transform: scale(0.92);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.7);
+  transition: transform 0.1s, box-shadow 0.1s;
+  position: relative;
+  z-index: 10;
+}
+
+/* Box-shadow water ripple effect for new buttons */
+.new-buttons > .memory:active {
+  animation: ripple-pink 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+.new-buttons > .conversion:active {
+  animation: ripple-green 0.8s cubic-bezier(0.1, 0.7, 0.1, 1);
+}
+
+@keyframes ripple-pink {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 105, 180, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(255, 105, 180, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(255, 105, 180, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(255, 105, 180, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(255, 105, 180, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(255, 105, 180, 0);
+  }
+}
+
+@keyframes ripple-green {
+  0% {
+    box-shadow: 0 0 0 rgba(120, 255, 120, 0.9);
+  }
+  20% {
+    box-shadow: 0 0 15px 8px rgba(120, 255, 120, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 30px 15px rgba(120, 255, 120, 0.7);
+  }
+  60% {
+    box-shadow: 0 0 45px 25px rgba(120, 255, 120, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 60px 35px rgba(120, 255, 120, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 80px 50px rgba(120, 255, 120, 0);
+  }
 }
 
 .new-buttons p {
@@ -233,4 +523,6 @@ footer {
   margin: 0;
   padding: 0;
   user-select: none;
+  position: relative;
+  z-index: 2; /* Make text appear above the splash effect */
 }
