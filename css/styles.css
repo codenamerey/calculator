@@ -50,6 +50,39 @@ footer {
   font-family: "Orbitron", sans-serif;
   margin: 10px;
   text-align: right;
+  position: relative;
+}
+
+/* Indicators styling */
+.indicators {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 10px;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+}
+
+.memory-indicator {
+  background-color: transparent;
+  color: #ff6b6b;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.memory-indicator.active {
+  display: block;
+}
+
+.system-indicator {
+  background-color: #4dabf7;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .display > .upper-display {
@@ -57,7 +90,7 @@ footer {
   flex: 1 1 75%;
   font-size: 1.5rem;
   font-weight: 900;
-  margin: 1rem 1rem 1rem 0;
+  margin: 1.5rem 1rem 1rem 0;  /* Increased top margin to accommodate indicators */
   user-select: none;
 }
 

@@ -74,6 +74,39 @@ let input = document.querySelector(".display > .input");
 let upperDisplay = document.querySelector(".upper-display");
 let buttons = document.querySelectorAll(".buttons > div");
 let newButtons = document.querySelectorAll(".new-buttons > div");
+let memoryIndicator = document.querySelector(".memory-indicator");
+let systemIndicator = document.querySelector(".system-indicator");
+
+// Update indicators on page load
+updateMemoryIndicator();
+updateSystemIndicator();
+
+// Function to update memory indicator visibility
+function updateMemoryIndicator() {
+  if (memory !== 0) {
+    memoryIndicator.classList.add("active");
+  } else {
+    memoryIndicator.classList.remove("active");
+  }
+}
+
+// Function to update number system indicator
+function updateSystemIndicator() {
+  switch(currentNumberSystem) {
+    case "decimal":
+      systemIndicator.textContent = "DEC";
+      break;
+    case "binary":
+      systemIndicator.textContent = "BIN";
+      break;
+    case "hexadecimal":
+      systemIndicator.textContent = "HEX";
+      break;
+    case "octal":
+      systemIndicator.textContent = "OCT";
+      break;
+  }
+}
 
 buttons.forEach((button) => {
   button.addEventListener("click", displayContent);
@@ -132,6 +165,9 @@ function displayContent(e) {
     upperDisplay.textContent = convertedNumber;
     input.textContent = "";
     currentNumberSystem = conversionType;
+    
+    // Update the system indicator
+    updateSystemIndicator();
   }
 
   if (e.target.classList.contains("memory")) {
@@ -139,14 +175,31 @@ function displayContent(e) {
     if (memoryAction === "recall") {
       input.textContent = memory;
     } else if (memoryAction === "add") {
-      memory += parseFloat(input.textContent);
-      input.textContent = memory;
+      // If memory is 0, act as M-Store, otherwise act as M+ (add to memory)
+      if (input.textContent) {
+        if (memory === 0) {
+          // Memory is empty, so just store the current value
+          memory = parseFloat(input.textContent);
+        } else {
+          // Memory has a value, so add to it
+          memory += parseFloat(input.textContent);
+        }
+        input.textContent = memory;
+      } else if (upperDisplay.textContent && memory === 0) {
+        // If input is empty but upper display has value, and memory is empty
+        memory = parseFloat(upperDisplay.textContent);
+      }
     } else if (memoryAction === "minus") {
-      memory -= parseFloat(input.textContent);
-      input.textContent = memory;
+      if (input.textContent) {
+        memory -= parseFloat(input.textContent);
+        input.textContent = memory;
+      }
     } else if (memoryAction === "delete") {
       memory = 0;
     }
+    
+    // Update the memory indicator
+    updateMemoryIndicator();
   }
 
   if (e.target.id == "equal") {
@@ -166,8 +219,12 @@ function displayContent(e) {
     value = [];
     firstNum = "";
     secondNum = "";
-    numberSystem = "decimal";
+    currentNumberSystem = "decimal";
     upperDisplay.textContent = "";
     input.textContent = "";
+    
+    // Update both indicators
+    updateSystemIndicator();
+    // Note: We don't reset memory on clear, only update system
   }
 }
